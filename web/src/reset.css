@@ -1,0 +1,101 @@
+/* reset.css - 重置默认样式 */
+
+/* 1. 设置所有元素的盒模型为 border-box */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+}
+
+/* 2. 清除 HTML5 默认样式 */
+html {
+  font-size: 100%; /* 默认字号为 16px */
+  -webkit-text-size-adjust: 100%; /* 禁止 iOS 字体自动调整 */
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased; /* 优化字体渲染 */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 3. 清除 body 默认样式 */
+body {
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #222;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* 4. 清除链接默认样式 */
+a {
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* 5. 清除按钮默认样式 */
+button {
+  background: none;
+  padding: 0;
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* 6. 清除 input 默认样式 */
+input,
+textarea {
+  font: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+/* 7. 清除列表默认样式 */
+ul, ol {
+  list-style: none;
+}
+
+/* 8. 清除图片默认样式 */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 0;
+}
+
+/* 9. 清除表格默认样式 */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 10. 清除 html5 元素默认样式 */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  display: block;
+}
