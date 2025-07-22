@@ -1,7 +1,7 @@
 import React from "react";
 import "./chat.less"
-import ChatWin from "./components/chatWin/ChatWin";
-import ChatText from "./components/chatText/ChatText";
+import ChatWin from "./chatWin/ChatWin";
+import ChatText from "./chatText/ChatText";
 
 const Chat:React.FC = () => {
     return (

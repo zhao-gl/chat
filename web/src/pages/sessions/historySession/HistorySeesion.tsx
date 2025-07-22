@@ -17,6 +17,10 @@ const HistorySession:React.FC = () => {
             {id: 8, title: "Session 8", description: "This is the first session"},
             {id: 9, title: "Session 9", description: "This is the first session"},
             {id: 10, title: "Session 10", description: "This is the first session"},
+            {id: 11, title: "Session 11", description: "This is the first session"},
+            {id: 12, title: "Session 12", description: "This is the first session"},
+            {id: 13, title: "Session 13", description: "This is the first session"},
+            {id: 14, title: "Session 14", description: "This is the first session"},
         ])
     }, []);
     return (

@@ -2,8 +2,8 @@ import React from "react";
 import "./sessions.less"
 
 import User from "@/components/user/User"
-import NewSession from "./components/newSession/NewSession"
-import HistorySession from "./components/historySession/HistorySeesion"
+import NewSession from "./newSession/NewSession"
+import HistorySession from "./historySession/HistorySeesion"
 import {Divider} from "antd";
 
 
