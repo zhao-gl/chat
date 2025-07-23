@@ -1,5 +1,5 @@
 import React from "react";
-import "./chat.less"
+import "./style.less"
 import ChatWin from "./chatWin/ChatWin";
 import ChatText from "./chatText/ChatText";
 

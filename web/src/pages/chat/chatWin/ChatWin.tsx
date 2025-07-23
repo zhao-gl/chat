@@ -1,6 +1,6 @@
 import React from "react";
 import {Welcome} from "@ant-design/x";
-import "./chatWin.less"
+import "./style.less"
 
 const ChatWin:React.FC = () => {
     return (

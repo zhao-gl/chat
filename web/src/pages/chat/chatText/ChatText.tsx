@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import "./type.d.ts"
 import Quill, {QuillOptions} from 'quill';
 import "quill/dist/quill.snow.css";
-import "./chatText.less"
+import "./style.less"
 
 const ChatText: React.FC = () => {
     const initialized = useRef(false);
