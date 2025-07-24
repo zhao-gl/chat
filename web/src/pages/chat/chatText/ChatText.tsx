@@ -1,55 +1,57 @@
-import React, {useEffect, useRef, useState} from "react";
-import "./type.d.ts"
-import Quill, {QuillOptions} from 'quill';
+import React, {useEffect, useState} from "react";
 import "quill/dist/quill.snow.css";
 import "./style.less"
+import {addMsg} from "@/store/slices/roomSlice";
+import {Msg} from "@/types";
+import {message} from "antd";
+import {Sender} from "@ant-design/x";
+import {useDispatch} from 'react-redux';
 
 const ChatText: React.FC = () => {
-    const initialized = useRef(false);
-    const quill: React.RefObject<Quill | null> = useRef(null);
-    const [showEmbedDialog, setShowEmbedDialog] = useState(false)
-    const options: QuillOptions = {
-            // debug: 'info',
-            modules: {
-                toolbar: {
-                    container: '#quill-edit-toolbar',
-                    handlers: {
-                        /** 嵌入 */
-                        emoji: () => {
-                            setShowEmbedDialog(true);
-                        },
-                    },
-                },
-            },
-            theme: 'snow'
+    const [value, setValue] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
+    const dispatch = useDispatch();
+
+    const sendMsg = (v: string) => {
+        const msg: Msg = {
+            id: Date.now(),
+            content: v,
+            time: new Date().toLocaleTimeString(),
+            type: "self",
+            placement: "end",
+            sender: {
+                name: "self"
+            }
         }
-    ;
+        dispatch(addMsg(msg))
+    }
 
     useEffect(() => {
-        if (initialized.current) return;
-        initialized.current = true;
-        quill.current = new Quill('#editor', options);
+
     }, [])
 
     return (
-        <>
-            <div id="editor-container" className="chat-text">
-                <div id="quill-edit-toolbar">
-                    <div
-                        className="ql-btn ql-emoji"
-                        onClick={() =>
-                            (quill.current?.getModule('toolbar') as QuillToolbarModule).handler('emoji')
-                        }
-                    ></div>
-                </div>
-                <div id="editor"></div>
-            </div>
-            {showEmbedDialog &&
-                <div>
-                    表情
-                </div>
-            }
-        </>
+        <div className="chat-text">
+            <Sender
+                loading={loading}
+                value={value}
+                rootClassName={'chat-text-sender'}
+                onChange={(v) => {
+                    setValue(v);
+                }}
+                onSubmit={(v) => {
+                    sendMsg(v)
+                    setValue("");
+                    // setLoading(true);
+                }}
+                onCancel={() => {
+                    setLoading(false);
+                    message.error('Cancel sending!');
+                }}
+                // onKeyPress={(e: React.KeyboardEvent<HTMLDivElement>)=>{enter(e)}}
+                autoSize={{minRows: 6, maxRows: 6}}
+            />
+        </div>
     )
 }
 

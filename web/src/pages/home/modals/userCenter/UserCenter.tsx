@@ -1,14 +1,14 @@
 import React from "react"
-import "./type.d.ts"
-import "@/store/slices/type.d.ts"
+import "@/types"
 import "./style.less"
 import {Form, Input, Modal} from "antd";
 import {useSelector,useDispatch } from "react-redux";
 import { handleUserinfoModal } from '@/store/slices/modalSlice';
+import {StateSlice} from "@/types";
 
 const UserCenter:React.FC = () => {
     const dispatch = useDispatch();
-    const userinfoVisible = useSelector((state:stateSliceType) => state.modal.userinfoVisible);
+    const userinfoVisible = useSelector((state:StateSlice) => state.modal.userinfoVisible);
 
     const handleOk = () => {
         dispatch(handleUserinfoModal(false))

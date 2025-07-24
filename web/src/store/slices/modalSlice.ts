@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import "./type.d.ts"
+import {ModalSlice} from "@/types";
 
 // 初始状态
-const initialState: modalSliceType = {
+const initialState: ModalSlice = {
     userinfoVisible: false,
     settingVisible: false,
 };

@@ -1,5 +1,18 @@
 .history {
-  height: calc(80vh - 70px - 49px - 25px - 49px - 40px);
   overflow-y: scroll;
   border-bottom: 1px solid #f1f1f1;
+}
+
+//  PC
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+  .history {
+    height: calc(80vh - 30px - 49px - 25px - 49px - 40px - 40px);
+  }
+}
+
+// 高分辨率
+@media screen and (min-width: 1440px) {
+  .history {
+    height: calc(80vh - 70px - 49px - 25px - 49px - 40px);
+  }
 }

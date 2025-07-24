@@ -1,15 +1,15 @@
 import React from "react"
-import "./type.d.ts"
-import "@/store/slices/type.d.ts"
+import "@/types"
 import "./style.less"
 import {Form, Input, Modal} from "antd";
 import {useSelector,useDispatch } from "react-redux";
 import { handleSettingModal } from '@/store/slices/modalSlice';
 import { saveSetting } from "@/api/setting/index"
+import {StateSlice} from "@/types";
 
 const Setting:React.FC = () => {
     const dispatch = useDispatch();
-    const settingVisible = useSelector((state:stateSliceType) => state.modal.settingVisible);
+    const settingVisible = useSelector((state:StateSlice) => state.modal.settingVisible);
     const closeSettingModal = () => {
         dispatch(handleSettingModal(false))
     }

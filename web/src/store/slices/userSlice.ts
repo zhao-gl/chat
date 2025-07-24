@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {UserSlice} from "@/types";
 
 // 初始状态
-const initialState: userSliceType = {
+const initialState: UserSlice = {
     name: "zhao",
 };
 

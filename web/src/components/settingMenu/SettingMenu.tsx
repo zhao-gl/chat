@@ -1,6 +1,5 @@
 import React from "react";
-import "./type.d.ts"
-import "@/store/slices/type.d.ts"
+import "@/types"
 import "./style.less"
 import type { MenuProps } from 'antd';
 import { Dropdown, Space } from 'antd';
@@ -46,7 +45,7 @@ const SettingMenu:React.FC = () => {
         <Dropdown menu={{ items }} trigger={['click']}>
             <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                    <MoreOutlined style={{fontSize: "30px",verticalAlign: "middle"}} />
+                    <MoreOutlined className={"setting"} />
                 </Space>
             </a>
         </Dropdown>

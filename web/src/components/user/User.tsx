@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Avatar} from "antd";
-import "./type.d.ts"
+import {UserType} from "@/types"
 import "./style.less"
 import {UserOutlined} from "@ant-design/icons";
 import SettingMenu from "@/components/settingMenu/SettingMenu";
 
 const User:React.FC = () => {
-    const [user,setUser]= useState<User>({
+    const [user,setUser]= useState<UserType>({
         id: 0,
         name: "",
         avatar: "",
