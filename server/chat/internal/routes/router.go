@@ -8,7 +8,7 @@ import (
 var Router = gin.Default()
 
 func OpenServer() {
-	Public()
+	Common()
 	User()
 	Login()
 	// 启动 HTTP 服务并监听 3000 端口
