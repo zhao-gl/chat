@@ -11,6 +11,7 @@ func OpenServer() {
 	Common()
 	User()
 	Login()
+	QueryAI()
 	// 启动 HTTP 服务并监听 3000 端口
 	err := Router.Run(":3000")
 	if err != nil {

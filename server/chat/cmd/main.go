@@ -1,7 +1,7 @@
 package main
 
 import (
-	"chat/internal/handlers"
+	"chat/internal/routes"
 	"github.com/joho/godotenv"
 	"log"
 )
@@ -21,6 +21,6 @@ func main() {
 	//	}
 	//}(config.DB)
 
-	//routes.OpenServer()
-	handlers.QueryQWen()
+	routes.OpenServer()
+	//handlers.QueryQWen()
 }
