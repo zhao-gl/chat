@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"chat/internal/handlers"
 	"chat/internal/models"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"io"
 	"strings"
@@ -11,11 +12,13 @@ import (
 
 func Chat() {
 	Router.POST("/chat", func(c *gin.Context) {
-		var cType = c.PostForm("type")
-		var role = c.PostForm("role")
-		var content = c.PostForm("content")
-		var model = c.PostForm("model")
-		println(role, content)
+		var req models.RequestContent
+		// 绑定 JSON 数据到结构体
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(400, gin.H{"error": err.Error()})
+			return
+		}
+		fmt.Println(req.Type, req.Role, req.Content, req.Model)
 
 		// 设置 SSE 头部
 		c.Header("Content-Type", "text/event-stream")
@@ -24,10 +27,10 @@ func Chat() {
 		c.Header("Access-Control-Allow-Origin", "*")
 
 		bodyTxt := handlers.HandleChat(models.RequestContent{
-			Type:    cType,
-			Role:    role,
-			Content: content,
-			Model:   model,
+			Type:    req.Type,
+			Role:    req.Role,
+			Content: req.Content,
+			Model:   req.Model,
 		})
 
 		// 逐行读取并处理流数据
