@@ -13,3 +13,8 @@ type Message struct {
 	Content string `json:"content"` // 消息内容
 	Time    string `json:"time"`    // 时间戳
 }
+
+type Session struct {
+	Id      string    `json:"id"`
+	MsgList []Message `json:"msgList"`
+}

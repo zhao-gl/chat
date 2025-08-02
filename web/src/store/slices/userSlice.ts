@@ -8,7 +8,7 @@ const initialState: UserSlice = {
 
 // 创建切片
 export const userSlice = createSlice({
-    name: 'modal', // 切片名称，会作为 action type 的前缀
+    name: 'user', // 切片名称，会作为 action type 的前缀
     initialState,
     reducers: {
         setName: (state, action) => {
