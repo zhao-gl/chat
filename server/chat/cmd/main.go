@@ -1,7 +1,9 @@
 package main
 
 import (
+	"chat/config"
 	"chat/internal/routes"
+	"database/sql"
 	"github.com/joho/godotenv"
 	"log"
 )
@@ -13,14 +15,13 @@ func main() {
 		log.Fatal("Error loading .env.ai file")
 	}
 	// 初始化数据库
-	//config.InitDB()
-	//defer func(DB *sql.DB) {
-	//	err := DB.Close()
-	//	if err != nil {
-	//		println("数据库关闭失败:", err)
-	//	}
-	//}(config.DB)
+	config.InitDB()
+	defer func(DB *sql.DB) {
+		err := DB.Close()
+		if err != nil {
+			println("数据库关闭失败:", err)
+		}
+	}(config.DB)
 
 	routes.OpenServer()
-	//handlers.QueryQWen()
 }

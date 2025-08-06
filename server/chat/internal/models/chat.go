@@ -16,5 +16,6 @@ type Message struct {
 
 type Session struct {
 	Id      string    `json:"id"`
+	Title   string    `json:"title"`
 	MsgList []Message `json:"msgList"`
 }

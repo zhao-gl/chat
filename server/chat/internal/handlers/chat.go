@@ -1,18 +1,20 @@
 package handlers
 
 import (
+	"chat/config"
 	"chat/internal/handlers/ai"
 	"chat/internal/models"
 	"fmt"
-	"utils"
 )
 
 // CreateSession 创建新会话
 func CreateSession() (models.Session, error) {
 	newSession := models.Session{
-		Id: utils.UUID(),
+		Title: "新会话",
 	}
-	return newSession, nil
+	// 执行SQL
+	_, err := config.DB.Exec("INSERT INTO session(title) VALUES(?)", newSession.Title)
+	return newSession, err
 }
 
 // GetSession 查询会话

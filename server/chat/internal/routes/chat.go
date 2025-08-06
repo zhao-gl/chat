@@ -16,6 +16,7 @@ func Chat() {
 		// 创建新会话
 		session, err := handlers.CreateSession()
 		if err != nil {
+			fmt.Println(err)
 			SendResponse(c, 500, nil, "创建失败")
 			return
 		}
