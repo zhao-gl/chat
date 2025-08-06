@@ -1,14 +1,27 @@
 package routes
 
 import (
-	"chat/internal/models"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"time"
 )
 
 // Router 创建一个默认的 Gin 路由引擎
 var Router = gin.Default()
 
 func OpenServer() {
+	Router.Use(cors.New(cors.Config{
+		AllowAllOrigins: true,
+		//AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"},
+		//AllowHeaders:     []string{"Origin"},
+		//ExposeHeaders:    []string{"Content-Length"},
+		//AllowCredentials: true,
+		//AllowOriginFunc: func(origin string) bool {
+		//	return origin == "https://github.com"
+		//},
+		MaxAge: 12 * time.Hour,
+	}))
+
 	Common()
 	User()
 	Login()
@@ -18,12 +31,5 @@ func OpenServer() {
 	if err != nil {
 		panic(err)
 	}
-}
 
-func SendResponse(c *gin.Context, code int, data interface{}, message string) {
-	c.JSON(code, models.Response{
-		Code:    code,
-		Data:    data,
-		Message: message,
-	})
 }

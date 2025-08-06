@@ -1,42 +1,115 @@
 package handlers
 
 import (
-	"chat/config"
-	"chat/internal/handlers/ai"
+	"bufio"
 	"chat/internal/models"
+	"chat/internal/services"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"io"
+	"strings"
 )
 
-// CreateSession 创建新会话
-func CreateSession() (models.Session, error) {
-	newSession := models.Session{
-		Title: "新会话",
+// HandleCreateSession 处理创建新会话
+func HandleCreateSession(c *gin.Context) {
+	session, err := services.CreateSession()
+	if err != nil {
+		fmt.Println(err)
+		SendResponse(c, 500, nil, "创建失败")
+		return
 	}
-	// 执行SQL
-	_, err := config.DB.Exec("INSERT INTO session(title) VALUES(?)", newSession.Title)
-	return newSession, err
+	// 返回会话ID
+	SendResponse(c, 200, session, "创建成功")
 }
 
-// GetSession 查询会话
-func GetSession(sessionId string) (models.Session, error) {
-	return models.Session{}, nil
-}
-
-// GetAllSessions 查询全部历史会话
-func GetAllSessions() ([]models.Session, error) {
-	return []models.Session{}, nil
-}
-
-// DelSession 删除会话
-func DelSession(sessionId string) (bool, error) {
-	return true, nil
-}
-
-// HandleChat 处理聊天请求
-func HandleChat(reqContent models.RequestContent) []byte {
-	fmt.Println("type", reqContent.Type)
-	if reqContent.Type == "qwen" {
-		return ai.QueryQWen(reqContent)
+// HandleQuerySessionById 处理查询指定ID的会话
+func HandleQuerySessionById(c *gin.Context) {
+	sessionId := c.Query("sessionId")
+	// sessionId 不为空则根据sessionId查询会话
+	if sessionId == "" {
+		SendResponse(c, 500, nil, "参数错误")
+		return
 	}
-	return []byte{0}
+	session, err := services.QuerySessionById(sessionId)
+	if err != nil {
+		SendResponse(c, 500, nil, "获取失败")
+		return
+	}
+	SendResponse(c, 200, session, "获取成功")
+}
+
+// HandleAllSessions 查询全部历史会话
+func HandleAllSessions(c *gin.Context) {
+	history, err := services.QueryAllSessions()
+	if err != nil {
+		SendResponse(c, 500, nil, "获取失败")
+		return
+	}
+	SendResponse(c, 200, history, "获取成功")
+}
+
+// HandleDelSession 删除会话
+func HandleDelSession(c *gin.Context) {
+	sessionId := c.Query("sessionId")
+	res, err := services.DelSession(sessionId)
+	if err != nil {
+		SendResponse(c, 500, nil, "删除失败")
+		return
+	}
+	SendResponse(c, 200, res, "删除成功")
+}
+
+// HandleAsk 处理聊天请求
+func HandleAsk(c *gin.Context) {
+	var req models.RequestContent
+	// 绑定 JSON 数据到结构体
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+	fmt.Println(req.Type, req.Role, req.Content, req.Model)
+
+	// 设置 SSE 头部
+	c.Header("Content-Type", "text/event-stream")
+	c.Header("Cache-Control", "no-cache")
+	c.Header("Connection", "keep-alive")
+	c.Header("Access-Control-Allow-Origin", "*")
+
+	bodyTxt := services.Ask(models.RequestContent{
+		Type:    req.Type,
+		Role:    req.Role,
+		Content: req.Content,
+		Model:   req.Model,
+	})
+
+	// 逐行读取并处理流数据
+	reader := bufio.NewReader(strings.NewReader(string(bodyTxt)))
+	for {
+		line, err := reader.ReadString('\n')
+		if err != nil {
+			if err == io.EOF {
+				break
+			}
+			c.SSEvent("error", err.Error())
+			return
+		}
+
+		// 处理 SSE 数据行
+		line = strings.TrimSpace(line)
+		if strings.HasPrefix(line, "data:") {
+			data := strings.TrimSpace(strings.TrimPrefix(line, "data:"))
+
+			// 检查是否结束
+			if data == "[DONE]" {
+				c.SSEvent("end", "stream finished")
+				break
+			}
+
+			// 发送消息内容
+			if data != "" {
+				c.SSEvent("message", data)
+				c.Writer.Flush()
+			}
+		}
+	}
 }
