@@ -1,13 +1,16 @@
-import React, {useEffect, useState} from "react";
-import {StateSlice} from "@/types"
-import {Welcome, Bubble, XStream} from "@ant-design/x";
+import React, {useEffect} from "react";
+import {Session} from "@/types"
+import {Bubble} from "@ant-design/x";
 import "./style.less"
 import {UserOutlined} from "@ant-design/icons";
-import {useDispatch, useSelector} from "react-redux";
 
-const ChatWin: React.FC = () => {
-    const room = useSelector((state: StateSlice) => state.room)
-    // const dispatch = useDispatch();
+interface ChatWinProps {
+    session?: Session
+}
+
+const ChatWin: React.FC<ChatWinProps> = (props) => {
+    const {session} = props
+
     const barAvatar: React.CSSProperties = {
         color: '#fff',
         backgroundColor: '#87d068',
@@ -21,18 +24,18 @@ const ChatWin: React.FC = () => {
 
     useEffect(() => {
         scrollToEnd()
-    }, [room.msgList])
+    }, [session.msgList])
     return (
         <>
-            <h3 style={{marginBottom: "10px"}}>{room.roomName}</h3>
+            <h3 style={{marginBottom: "10px"}}>{session.title}</h3>
             <div className="chat-win">
-                {room.msgList.map((item): React.ReactNode => {
+                {session.msgList.map((item): React.ReactNode => {
                     return (
                         item.placement === "start" ? (
                             <Bubble
                                 key={item.id}
                                 placement={"start"}
-                                avatar={{icon: <UserOutlined />, style: barAvatar }}
+                                avatar={{icon: <UserOutlined/>, style: barAvatar}}
                                 content={item.content}
                                 typing={true}
                                 style={{marginBottom: "10px"}}
@@ -41,7 +44,7 @@ const ChatWin: React.FC = () => {
                             <Bubble
                                 key={item.id}
                                 placement={"end"}
-                                avatar={{icon: <UserOutlined />, style: barAvatar }}
+                                avatar={{icon: <UserOutlined/>, style: barAvatar}}
                                 content={item.content}
                                 style={{marginBottom: "10px"}}
                             />

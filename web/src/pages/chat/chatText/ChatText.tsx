@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from "react";
 import "quill/dist/quill.snow.css";
 import "./style.less"
-import {addMsg, updateMsg} from "@/store/slices/roomSlice";
-import {Msg, StateSlice} from "@/types";
 import {message} from "antd";
 import {Sender, XStream} from "@ant-design/x";
-import {useDispatch, useSelector} from 'react-redux';
+import {Session, Msg} from "@/types";
 
-const ChatText: React.FC = () => {
+interface ChatWinProps {
+    session?: Session
+}
+
+const ChatText: React.FC<ChatWinProps> = (props) => {
+    const {session} = props
     const [value, setValue] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
-    const room = useSelector((state: StateSlice) => state.room)
-    const dispatch = useDispatch();
 
     async function queryQwen() {
         const data = {
@@ -51,36 +52,31 @@ const ChatText: React.FC = () => {
             }
             console.log("resData", resData)
 
-            const newMsg: Msg = {
-                id: resData.id,
-                content: resData.content,
-                time: new Date().toLocaleTimeString(),
-                type: "ai",
-                placement: "start",
-                sender: {}
-            }
+            // const newMsg: Msg = {
+            //     content: resData.content,
+            //     time: new Date().toLocaleTimeString(),
+            //     type: "ai",
+            //     placement: "start",
+            //     sender: {}
+            // }
 
             // 使用更高效的查找方式（假设room.msgMap为Map类型）
-            // 如果仍使用数组，则保持原逻辑但添加安全检查
-            const exist = room.msgList.find(item => item.id === newMsg.id)
-            console.log("exist", exist)
-            if(exist) {
-                console.log("update")
-                dispatch(updateMsg({id: newMsg.id, content: newMsg.content}))
-            }else{
-                console.log("add",room.msgList)
-                dispatch(addMsg(newMsg))
-            }
+            // todo 优化消息展示逻辑
+            // const exist = session.msgList.find(item => item.id === newMsg.id)
+            // console.log("exist", exist)
+            // if(exist) {
+            //     console.log("update")
+                // dispatch(updateMsg({id: newMsg.id, content: newMsg.content}))
+            // }else{
+            //     console.log("add",session.msgList)
+                // dispatch(addMsg(newMsg))
+            // }
         }
     }
 
-    useEffect(() => {
-        console.log(room.msgList)
-    }, [room.msgList]);
 
-    const sendMsg = (v: string) => {
+    const sendMsg = async (v: string) => {
         const msg: Msg = {
-            id: Date.now().toString(),
             content: v,
             time: new Date().toLocaleTimeString(),
             type: "self",
@@ -89,8 +85,9 @@ const ChatText: React.FC = () => {
                 name: "self"
             }
         }
-        dispatch(addMsg(msg))
-        queryQwen()
+        console.log(msg)
+        // dispatch(addMsg(msg))
+        await queryQwen()
     }
 
     useEffect(() => {

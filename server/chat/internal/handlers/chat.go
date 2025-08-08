@@ -24,13 +24,13 @@ func HandleCreateSession(c *gin.Context) {
 
 // HandleQuerySessionById 处理查询指定ID的会话
 func HandleQuerySessionById(c *gin.Context) {
-	sessionId := c.Query("sessionId")
-	// sessionId 不为空则根据sessionId查询会话
-	if sessionId == "" {
+	id := c.Query("id")
+	// sessionId 空校验
+	if id == "" {
 		SendResponse(c, 500, nil, "参数错误")
 		return
 	}
-	session, err := services.QuerySessionById(sessionId)
+	session, err := services.QuerySessionById(id)
 	if err != nil {
 		SendResponse(c, 500, nil, "获取失败")
 		return
@@ -50,8 +50,8 @@ func HandleAllSessions(c *gin.Context) {
 
 // HandleDelSession 删除会话
 func HandleDelSession(c *gin.Context) {
-	sessionId := c.Query("sessionId")
-	res, err := services.DelSession(sessionId)
+	id := c.Query("id")
+	res, err := services.DelSession(id)
 	if err != nil {
 		SendResponse(c, 500, nil, "删除失败")
 		return

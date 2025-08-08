@@ -15,7 +15,9 @@ type Message struct {
 }
 
 type Session struct {
-	Id      string    `json:"id"`
-	Title   string    `json:"title"`
-	MsgList []Message `json:"msgList"`
+	Id         int64     `json:"id"`
+	Title      string    `json:"title"`
+	CreateTime string    `json:"createTime"`
+	UpdateTime string    `json:"updateTime"`
+	MsgList    []Message `json:"msgList"`
 }

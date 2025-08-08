@@ -4,3 +4,7 @@ export interface httpCustomerOption {
     customHead?: object,
     timeout?: number
 }
+
+interface Params {
+    [key: string]: never
+}

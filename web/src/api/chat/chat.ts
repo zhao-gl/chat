@@ -1,8 +1,7 @@
 import {get, post} from "@/utils/request"
 
-const createSession = async (data: object,) => {
-    const res = await post('/chat/new', data, {})
-    console.log(res)
+const createSession = async () => {
+    return await post('/chat/new', undefined, {})
 }
 
 export {

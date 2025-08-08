@@ -1,6 +1,6 @@
 // export type { User, UserRole } from './api/index';
 export type { ModalSlice,UserSlice,RoomSlice,StateSlice } from './store/index';
-export type { Msg } from './chat/index';
+export type { Msg,Session } from './chat/index';
 // export type { ButtonProps, InputProps } from './setting/index';
 export type { UserType } from './user/index';
 
